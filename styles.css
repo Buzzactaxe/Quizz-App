@@ -1,0 +1,103 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+/* variable for all colors using hsl */
+:root {
+	--hue-neutral: 200;
+	--hue-correct: 130;
+	--hue-wrong: 0;
+}
+
+/* style for entire body */
+body {
+	padding: 0;
+	margin: 0;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	--hue: var(--hue-neutral);
+	background-color: hsl(var(--hue), 100%, 30%);
+}
+
+/* correct answer background color */
+body.correct {
+	--hue: var(--hue-correct);
+}
+
+/* wrong answer background color */
+body.wrong {
+	--hue: var(--hue-wrong);
+}
+/* correct answer button color */
+.btn.correct {
+	--hue: var(--hue-correct);
+	color: black;
+}
+/* wrong answer button color */
+.btn.wrong {
+	--hue: var(--hue-wrong);
+}
+
+/* styles for container */
+.container {
+	width: 800px;
+	max-width: 80%;
+	background-color: white;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+#question {
+	font-size: 1.40rem;
+	font-weight: bolder;
+}
+
+/* grid of answer buttons */
+.btn-grid {
+	display: grid;
+	grid-template-columns: repeat(2, auto);
+	gap: 10px;
+	margin: 20px 0px;
+}
+
+/* single button style */
+.btn {
+	--hue: var(--hue-neutral);
+	background-color: hsl(var(--hue), 100%, 50%);
+	border: 2px solid hsl(var(--hue), 100%, 35%);
+	border-radius: 30px;
+	padding: 10px 5px;
+	color: white;
+	outline: none;
+	font-weight: bold;
+}
+
+.btn:hover {
+	border-color: black;
+	color: black;
+}
+
+/* start/restart, next class */
+.controls {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* hide div class */
+.hide {
+	display: none;
+}
+
+.start-btn,
+.next-btn {
+	font-weight: bold;
+	font-size: 1.35rem;
+	padding: 20px 20px;
+}
