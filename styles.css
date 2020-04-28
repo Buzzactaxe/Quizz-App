@@ -101,3 +101,24 @@ body.wrong {
 	font-size: 1.35rem;
 	padding: 20px 20px;
 }
+
+/* answer progress bar*/
+.progress {
+	width: 500px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 5px;
+	text-align: right;
+}
+
+/* innerHtml class */
+.prog {
+	width: 25px;
+	height: 25px;
+	border: 1px solid #000;
+	display: inline-block;
+	border-radius: 50%;
+	margin-left: 5px;
+	margin-right: 5px;
+}

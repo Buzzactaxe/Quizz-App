@@ -11,107 +11,6 @@ const solutionButtonsElement = document.getElementById('solution-buttons');
 //next question button
 const nextQuestionBtn = document.getElementById('next-btn');
 
-//shuffling question to display
-let shuffledQuestion, currentQuestionIndex;
-
-//Start game event listener
-startBtn.addEventListener('click', startGame);
-//Next Question event listener
-nextQuestionBtn.addEventListener('click', () => {
-	currentQuestionIndex++;
-	nextQuestion();
-});
-
-//main game function
-function startGame() {
-	//hide btn from layout
-	startBtn.classList.add('hide');
-	//shuffled question variable
-	shuffledQuestion = questions.sort(() => Math.random() - 0.5);
-	//start from first question in array
-	currentQuestionIndex = 0;
-	//show question container
-	questionContainer.classList.remove('hide');
-	//function for next question
-	nextQuestion();
-}
-
-// shuffle function
-function nextQuestion() {
-	//Invokes reset of form untill question is answered
-	resetForm();
-	//Invokes shuffles question
-	showQuestion(shuffledQuestion[currentQuestionIndex]);
-}
-
-//resets html form back to default when new question is created
-function resetForm() {
-	//Reset body to hue-neutral till next qestion in answered
-	clearStatusClass(document.body);
-	nextQuestionBtn.classList.add('hide');
-	while (solutionButtonsElement.firstChild) {
-		solutionButtonsElement.removeChild(solutionButtonsElement.firstChild);
-	}
-}
-
-//shows shuffled question + populates possible answers
-function showQuestion(question) {
-	questionElement.innerText = question.question;
-	//loop through answers and populate the button grid
-	question.answers.forEach((answer) => {
-		// create button element
-		const button = document.createElement('button');
-		// populate butto in element with answers from array
-		button.innerText = answer.text;
-		//add class from index.html
-		button.classList.add('btn');
-		//loop to find correct answer
-		if (answer.correct) {
-			//add data atribute to correct answer
-			button.dataset.correct = answer.correct;
-		}
-		//add event for whenever btn is clicked
-		button.addEventListener('click', selectAnswer);
-		solutionButtonsElement.appendChild(button);
-	});
-}
-
-//selects answer on btn grid
-function selectAnswer(e) {
-	//variable for any button clicked
-	const selectButton = e.target;
-	//variable checking if correct answer
-	const correct = selectButton.dataset.correct;
-
-	setStatusClass(document.body, correct);
-	Array.from(solutionButtonsElement.children).forEach((button) => {
-		setStatusClass(button, button.dataset.correct);
-	});
-	//check if we have more questions
-	if (shuffledQuestion.length > currentQuestionIndex + 1) {
-		nextQuestionBtn.classList.remove('hide');
-	} else {
-		startBtn.innerText = 'Restart';
-		startBtn.classList.remove('hide');
-	}
-}
-
-//add status of wrong or correct to button clicked
-function setStatusClass(element, correct) {
-	clearStatusClass(element);
-	if (correct) {
-		element.classList.add('correct');
-	} else {
-		element.classList.add('wrong');
-	}
-}
-
-//removes status from buttons clicked
-function clearStatusClass(element) {
-	element.classList.remove('correct');
-	element.classList.remove('wrong');
-}
-
 //Array of Questions
 const questions = [
 	{
@@ -205,3 +104,116 @@ const questions = [
 		]
 	}
 ];
+
+const lastQuestion = questions.length - 1;
+
+//shuffling question to display
+let shuffledQuestion, currentQuestionIndex;
+
+//Start game event listener
+startBtn.addEventListener('click', startGame);
+//Next Question event listener
+nextQuestionBtn.addEventListener('click', () => {
+	currentQuestionIndex++;
+	nextQuestion();
+});
+
+//main game function
+function startGame() {
+	//hide btn from layout
+	startBtn.classList.add('hide');
+	//shuffled question variable
+	shuffledQuestion = questions.sort(() => Math.random() - 0.5);
+	//start from first question in array
+	currentQuestionIndex = 0;
+	//show question container
+	questionContainer.classList.remove('hide');
+	//function for next question
+	nextQuestion();
+
+	//not resetting :(
+	renderProgress();
+}
+
+// render progress
+function renderProgress() {
+	for (let qIndex = 0; qIndex <= lastQuestion; qIndex++) {
+		progress.innerHTML += "<div class='prog' id=" + qIndex + '></div>';
+	}
+}
+
+// shuffle function
+function nextQuestion() {
+	//Invokes reset of form untill question is answered
+	resetForm();
+	//Invokes shuffles question
+	showQuestion(shuffledQuestion[currentQuestionIndex]);
+}
+
+//resets html form back to default when new question is created
+function resetForm() {
+	//Reset body to hue-neutral till next qestion in answered
+	clearStatusClass(document.body);
+	nextQuestionBtn.classList.add('hide');
+	while (solutionButtonsElement.firstChild) {
+		solutionButtonsElement.removeChild(solutionButtonsElement.firstChild);
+	}
+}
+
+//shows shuffled question + populates possible answers
+function showQuestion(question) {
+	questionElement.innerText = question.question;
+	//loop through answers and populate the button grid
+	question.answers.forEach((answer) => {
+		// create button element
+		const button = document.createElement('button');
+		// populate butto in element with answers from array
+		button.innerText = answer.text;
+		//add class from index.html
+		button.classList.add('btn');
+		//loop to find correct answer
+		if (answer.correct) {
+			//add data atribute to correct answer
+			button.dataset.correct = answer.correct;
+		}
+		//add event for whenever btn is clicked
+		button.addEventListener('click', selectAnswer);
+		solutionButtonsElement.appendChild(button);
+	});
+}
+
+//selects answer on btn grid
+function selectAnswer(e) {
+	//variable for any button clicked
+	const selectButton = e.target;
+	//variable checking if correct answer
+	const correct = selectButton.dataset.correct;
+
+	setStatusClass(document.body, correct);
+	Array.from(solutionButtonsElement.children).forEach((button) => {
+		setStatusClass(button, button.dataset.correct);
+	});
+	//check if we have more questions
+	if (shuffledQuestion.length > currentQuestionIndex + 1) {
+		nextQuestionBtn.classList.remove('hide');
+	} else {
+		startBtn.innerText = 'Restart';
+		startBtn.classList.remove('hide');
+	}
+}
+
+//add status of wrong or correct to button clicked
+function setStatusClass(element, correct) {
+	clearStatusClass(element);
+	if (correct) {
+		element.classList.add('correct');
+	} else {
+		element.classList.add('wrong');
+	}
+}
+
+//removes status from buttons clicked
+function clearStatusClass(element) {
+	element.classList.remove('correct');
+	element.classList.remove('wrong');
+}
